@@ -2,183 +2,206 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>After Office - Votación Oficial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>After Office - Votación</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Quicksand', sans-serif;
       touch-action: manipulation;
-    }
-    .font-fun {
-      font-family: 'Fredoka One', cursive;
+      padding-bottom: env(safe-area-inset-bottom, 20px);
     }
   </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between p-4">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 pb-28 font-sans">
 
   <!-- ENCABEZADO -->
-  <header class="text-center my-3">
-    <span class="inline-block bg-pink-500/20 text-pink-400 text-xs font-bold px-3 py-1 rounded-full border border-pink-500/30 uppercase tracking-widest mb-2">
-      Edición Exclusiva
-    </span>
-    <h1 class="text-3xl font-fun text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400">
-      AFTER OFFICE VIP 🐶✨
+  <header class="text-center pt-2 pb-4">
+    <div class="inline-flex items-center gap-2 bg-pink-500/10 border border-pink-500/20 px-3 py-1 rounded-full text-xs font-semibold text-pink-400 mb-2">
+      🍻 AFTER OFFICE • NOVIEMBRE 2026
+    </div>
+    <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400">
+      Se pica el after: ¿A dónde vamos?
     </h1>
-    <p class="text-xs text-slate-400 mt-1">Superá el juego para votar el plan y la fecha</p>
+    <p class="text-xs text-slate-400 mt-1">Jugate una partida o andá directo a votar tu plan ideal.</p>
   </header>
 
-  <main class="w-full max-w-md mx-auto flex-1 flex flex-col justify-center">
+  <!-- PESTAÑAS PARA NAVEGAR SIN QUE SE CORTE -->
+  <nav class="flex max-w-sm mx-auto w-full bg-slate-900 p-1 rounded-2xl border border-slate-800 mb-4">
+    <button id="tab-game" onclick="switchTab('game')" class="flex-1 py-2 text-xs font-bold rounded-xl transition bg-pink-600 text-white shadow">
+      🎮 Minijuego
+    </button>
+    <button id="tab-vote" onclick="switchTab('vote')" class="flex-1 py-2 text-xs font-bold rounded-xl transition text-slate-400 hover:text-white">
+      🗳️ Votación Oficial
+    </button>
+  </nav>
 
-    <!-- PANTALLA 1: JUEGO -->
-    <section id="screen-game" class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl flex flex-col items-center text-center">
-      <div class="flex justify-between w-full mb-3 px-2 text-sm font-bold">
-        <span class="text-pink-400">Objetivo: 5 puntos</span>
-        <span class="text-amber-400" id="score-display">Puntos: 0</span>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="w-full max-w-sm mx-auto flex-1 flex flex-col">
+
+    <!-- SECCIÓN 1: MINIJUEGO -->
+    <section id="view-game" class="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-xl flex flex-col items-center">
+      <div class="flex justify-between items-center w-full mb-3 px-1 text-xs font-bold">
+        <span class="text-pink-400">Atrapá el After 🍻</span>
+        <span class="bg-slate-800 px-2.5 py-1 rounded-lg text-amber-400" id="game-score">Puntaje: 0</span>
       </div>
 
-      <!-- Canvas táctil adaptado a móvil -->
-      <div class="relative w-full aspect-square max-w-[320px] bg-slate-950 rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden flex items-center justify-center">
-        <canvas id="gameCanvas" width="300" height="300" class="w-full h-full block cursor-pointer"></canvas>
-        <div id="game-overlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-4">
-          <p class="text-4xl mb-2">🐾</p>
-          <p class="text-sm font-semibold text-slate-200 mb-4">Toca las caritas antes de que desaparezcan para demostrar que no sos un bot.</p>
-          <button id="btn-start" onclick="startGame()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 font-fun rounded-xl text-lg shadow-lg active:scale-95 transition">
-            ¡JUGAR AHORA!
+      <!-- Área de juego -->
+      <div class="relative w-full aspect-square max-w-[280px] bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-center overflow-hidden">
+        <canvas id="gameCanvas" width="280" height="280" class="block w-full h-full"></canvas>
+        
+        <div id="game-overlay" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center">
+          <p class="text-3xl mb-1">💼 ➡️ 🍻</p>
+          <p class="text-xs text-slate-300 mb-4 leading-relaxed">Tocá los tragos para esquivar los correos de Slack antes de que desaparezcan.</p>
+          <button onclick="startGame()" class="w-full py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 font-bold rounded-xl text-sm shadow active:scale-95 transition">
+            ¡JUGAR PARTIDA!
           </button>
         </div>
       </div>
-      <p class="text-xs text-slate-500 mt-3">Tip: Toca rápido en la pantalla cuando aparezcan</p>
+
+      <div class="flex gap-2 w-full mt-4">
+        <button onclick="startGame()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition">
+          🔄 Reiniciar
+        </button>
+        <button onclick="switchTab('vote')" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition">
+          Ir a votar ➡️
+        </button>
+      </div>
     </section>
 
-    <!-- PANTALLA 2: FORMULARIO DE VOTACIÓN (Oculto al inicio) -->
-    <section id="screen-vote" class="hidden bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl">
-      <div class="text-center mb-4">
-        <span class="text-2xl">🎉</span>
-        <h2 class="text-xl font-fun text-pink-400">¡Nivel Desbloqueado!</h2>
-        <p class="text-xs text-slate-300">Completá tu voto para el After Office</p>
+    <!-- SECCIÓN 2: ENCUESTA / VOTACIÓN -->
+    <section id="view-vote" class="hidden bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl">
+      <div class="mb-4">
+        <span class="text-xs font-bold uppercase tracking-wider text-pink-400">Paso 2 • Encuesta Oficial</span>
+        <h2 class="text-lg font-bold text-white mt-0.5">Elegí tu combo ideal</h2>
+        <p class="text-[11px] text-slate-400">Todos los planes incluyen ronda de birras / tragos post-actividad.</p>
       </div>
 
       <form id="voteForm" class="space-y-4">
-        <!-- Nombre -->
         <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">TU NOMBRE / APODO:</label>
-          <input type="text" id="voterName" required placeholder="Ej: Sabri" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tu nombre o apodo:</label>
+          <input type="text" id="voterName" required placeholder="Ej: Sabri" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
         </div>
 
-        <!-- Actividad -->
         <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">ACTIVIDAD PREFERIDA:</label>
-          <select id="voterActivity" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Actividad favorita:</label>
+          <select id="voterPlan" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
             <option value="Bowling 🎳">Bowling 🎳</option>
             <option value="Escape Room 🔐">Escape Room 🔐</option>
             <option value="Minigolf ⛳">Minigolf ⛳</option>
           </select>
         </div>
 
-        <!-- Fecha (Primeros dos viernes de noviembre) -->
         <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">FECHA IDEAL (NOVIEMBRE):</label>
-          <select id="voterDate" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
-            <option value="Viernes 6 de Noviembre">Primer Viernes (6 de Noviembre)</option>
-            <option value="Viernes 13 de Noviembre">Segundo Viernes (13 de Noviembre)</option>
-            <option value="Cualquiera de los dos me viene bien">Cualquiera de los dos viernes</option>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Fecha ideal (Noviembre 2026):</label>
+          <select id="voterDate" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+            <option value="Primer Viernes de Noviembre">Primer Viernes de Noviembre</option>
+            <option value="Segundo Viernes de Noviembre">Segundo Viernes de Noviembre</option>
+            <option value="Cualquiera me viene bien">Cualquiera me viene bien 🙌</option>
           </select>
         </div>
 
-        <!-- Botón Enviar WhatsApp -->
-        <button type="button" onclick="enviarWhatsApp()" class="w-full mt-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-fun rounded-xl text-base shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
-          <span>ENVIAR VOTO POR WHATSAPP</span> 💬
+        <button type="button" onclick="enviarVoto()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-sm shadow-lg flex items-center justify-center gap-2 active:scale-95 transition mt-2">
+          <span>ENVIAR VOTO A WHATSAPP</span> 💬
         </button>
       </form>
     </section>
 
   </main>
 
-  <footer class="text-center my-3">
-    <p class="text-[10px] text-slate-500 tracking-wider">
-      *Incluye show de enanos y palomas (sujeto a disponibilidad y presupuesto) 🕊️
-    </p>
+  <footer class="text-center text-[10px] text-slate-500 mt-4 mb-2">
+    *Incluye show de enanos y palomas (sujeto a disponibilidad y presupuesto) 🕊️
   </footer>
 
-  <!-- LÓGICA DE JUEGO Y REDIRECCIÓN -->
   <script>
+    // PESTAÑAS
+    function switchTab(tab) {
+      const viewGame = document.getElementById('view-game');
+      const viewVote = document.getElementById('view-vote');
+      const tabGame = document.getElementById('tab-game');
+      const tabVote = document.getElementById('tab-vote');
+
+      if (tab === 'game') {
+        viewGame.classList.remove('hidden');
+        viewVote.classList.add('hidden');
+        tabGame.className = "flex-1 py-2 text-xs font-bold rounded-xl transition bg-pink-600 text-white shadow";
+        tabVote.className = "flex-1 py-2 text-xs font-bold rounded-xl transition text-slate-400 hover:text-white";
+      } else {
+        viewGame.classList.add('hidden');
+        viewVote.classList.remove('hidden');
+        tabVote.className = "flex-1 py-2 text-xs font-bold rounded-xl transition bg-pink-600 text-white shadow";
+        tabGame.className = "flex-1 py-2 text-xs font-bold rounded-xl transition text-slate-400 hover:text-white";
+      }
+    }
+
+    // JUEGO TÁCTIL
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     let score = 0;
-    const targetScore = 5;
-    let targetX = 150;
-    let targetY = 150;
-    let targetRadius = 30;
-    let gameInterval = null;
+    let target = { x: 140, y: 140, emoji: '🍻' };
+    let timer = null;
 
-    function drawTarget() {
+    function renderTarget() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.font = "36px serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("🐶", targetX, targetY);
+      ctx.font = '36px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(target.emoji, target.x, target.y);
     }
 
-    function relocateTarget() {
+    function moveTarget() {
       const margin = 40;
-      targetX = margin + Math.random() * (canvas.width - margin * 2);
-      targetY = margin + Math.random() * (canvas.height - margin * 2);
-      drawTarget();
+      target.x = margin + Math.random() * (canvas.width - margin * 2);
+      target.y = margin + Math.random() * (canvas.height - margin * 2);
+      renderTarget();
     }
 
     function startGame() {
       document.getElementById('game-overlay').classList.add('hidden');
       score = 0;
-      document.getElementById('score-display').innerText = "Puntos: " + score;
-      relocateTarget();
-      clearInterval(gameInterval);
-      gameInterval = setInterval(relocateTarget, 1200);
+      document.getElementById('game-score').innerText = 'Puntaje: 0';
+      moveTarget();
+      clearInterval(timer);
+      timer = setInterval(moveTarget, 1100);
     }
 
-    function handleHit(evt) {
+    canvas.addEventListener('pointerdown', (e) => {
       const rect = canvas.getBoundingClientRect();
-      const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
-      const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
       const scaleX = canvas.width / rect.width;
       const scaleY = canvas.height / rect.height;
-      const clickX = (clientX - rect.left) * scaleX;
-      const clickY = (clientY - rect.top) * scaleY;
+      const x = (e.clientX - rect.left) * scaleX;
+      const y = (e.clientY - rect.top) * scaleY;
 
-      const dist = Math.hypot(clickX - targetX, clickY - targetY);
-      if (dist < targetRadius + 15) {
+      if (Math.hypot(x - target.x, y - target.y) < 35) {
         score++;
-        document.getElementById('score-display').innerText = "Puntos: " + score;
-        if (score >= targetScore) {
-          clearInterval(gameInterval);
-          document.getElementById('screen-game').classList.add('hidden');
-          document.getElementById('screen-vote').classList.remove('hidden');
+        document.getElementById('game-score').innerText = 'Puntaje: ' + score;
+        if (score >= 5) {
+          clearInterval(timer);
+          alert('¡Nivel superado! Ahora dejá tu voto.');
+          switchTab('vote');
         } else {
-          relocateTarget();
+          moveTarget();
         }
       }
-    }
+    });
 
-    canvas.addEventListener('pointerdown', handleHit);
-
-    function enviarWhatsApp() {
+    // WHATSAPP
+    function enviarVoto() {
       const nombre = document.getElementById('voterName').value.trim();
-      const actividad = document.getElementById('voterActivity').value;
+      const plan = document.getElementById('voterPlan').value;
       const fecha = document.getElementById('voterDate').value;
 
       if (!nombre) {
-        alert("Por favor ingresá tu nombre o apodo.");
+        alert('Por favor escribí tu nombre.');
         return;
       }
 
-      const mensaje = `¡Hola! Ya voté para el After Office 🐶🎉%0A%0A` +
-                      `👤 *Nombre:* ${encodeURIComponent(nombre)}%0A` +
-                      `🎯 *Actividad:* ${encodeURIComponent(actividad)}%0A` +
-                      `📅 *Fecha:* ${encodeURIComponent(fecha)}%0A%0A` +
-                      `*(Nota: Exijo el show prometido de enanos y palomas 🕊️)*`;
+      const texto = `¡Hola! Ya voté para el After Office 🍻%0A%0A` +
+                    `👤 *Nombre:* ${encodeURIComponent(nombre)}%0A` +
+                    `🎯 *Plan elegido:* ${encodeURIComponent(plan)}%0A` +
+                    `📅 *Fecha:* ${encodeURIComponent(fecha)}%0A%0A` +
+                    `*(Exijo el show de enanos y palomas 🕊️)*`;
 
-      window.open(`https://api.whatsapp.com/send?text=${mensaje}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?text=${texto}`, '_blank');
     }
   </script>
 </body>
