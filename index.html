@@ -3,1011 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Votación After Office 2026</title>
+  <title>After Office - Votación Oficial</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Bungee&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Quicksand', sans-serif;
       touch-action: manipulation;
     }
-    .font-game {
-      font-family: 'Bungee', cursive;
-    }
-    .neon-glow {
-      text-shadow: 0 0 10px rgba(244, 63, 94, 0.7), 0 0 20px rgba(168, 85, 247, 0.5);
-    }
-    .card-active {
-      border-color: #f43f5e;
-      background: linear-gradient(145deg, rgba(244, 63, 94, 0.15), rgba(168, 85, 247, 0.15));
-      transform: scale(1.02);
-    }
-    @keyframes bounce-slow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    .animate-bounce-slow {
-      animation: bounce-slow 1.8s infinite ease-in-out;
-    }
-    @keyframes wag {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(18deg); }
-      75% { transform: rotate(-18deg); }
-    }
-    .animate-wag {
-      transform-origin: 30px 150px;
-      animation: wag 0.35s infinite ease-in-out;
-    }
-    @keyframes cry {
-      0%, 100% { transform: translateY(0); opacity: 0.8; }
-      50% { transform: translateY(4px); opacity: 1; }
-    }
-    .animate-cry {
-      animation: cry 0.8s infinite ease-in-out;
+    .font-fun {
+      font-family: 'Fredoka One', cursive;
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 antialiased selection:bg-rose-500 selection:text-white">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between p-4">
 
-  <!-- Top Sticky Header -->
-  <header class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 px-4 py-3">
-    <div class="max-w-2xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl animate-pulse">🍻</span>
-        <span class="font-game text-sm sm:text-base tracking-wider bg-gradient-to-r from-rose-400 via-purple-400 to-amber-300 bg-clip-text text-transparent">
-          AFTER OFFICE
-        </span>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="shareDirectly()" class="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 flex items-center gap-1.5 transition active:scale-95">
-          <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-          Compartir Web
-        </button>
-      </div>
-    </div>
+  <!-- ENCABEZADO -->
+  <header class="text-center my-3">
+    <span class="inline-block bg-pink-500/20 text-pink-400 text-xs font-bold px-3 py-1 rounded-full border border-pink-500/30 uppercase tracking-widest mb-2">
+      Edición Exclusiva
+    </span>
+    <h1 class="text-3xl font-fun text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400">
+      AFTER OFFICE VIP 🐶✨
+    </h1>
+    <p class="text-xs text-slate-400 mt-1">Superá el juego para votar el plan y la fecha</p>
   </header>
 
-  <main class="max-w-2xl mx-auto px-4 pt-6 space-y-10">
+  <main class="w-full max-w-md mx-auto flex-1 flex flex-col justify-center">
 
-    <!-- INTRO -->
-    <section class="text-center space-y-2">
-      <div class="inline-block px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold tracking-wide uppercase">
-        Votación de Equipo • Noviembre 2026
+    <!-- PANTALLA 1: JUEGO -->
+    <section id="screen-game" class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl flex flex-col items-center text-center">
+      <div class="flex justify-between w-full mb-3 px-2 text-sm font-bold">
+        <span class="text-pink-400">Objetivo: 5 puntos</span>
+        <span class="text-amber-400" id="score-display">Puntos: 0</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
-        Se pica el after: <span class="bg-gradient-to-r from-rose-400 to-amber-400 bg-clip-text text-transparent">¿A dónde vamos?</span>
-      </h1>
-      <p class="text-slate-400 text-sm sm:text-base max-w-md mx-auto">
-        Antes de elegir, jugate una partida para liberar estrés y esquivar los correos de Slack.
-      </p>
+
+      <!-- Canvas táctil adaptado a móvil -->
+      <div class="relative w-full aspect-square max-w-[320px] bg-slate-950 rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden flex items-center justify-center">
+        <canvas id="gameCanvas" width="300" height="300" class="w-full h-full block cursor-pointer"></canvas>
+        <div id="game-overlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+          <p class="text-4xl mb-2">🐾</p>
+          <p class="text-sm font-semibold text-slate-200 mb-4">Toca las caritas antes de que desaparezcan para demostrar que no sos un bot.</p>
+          <button id="btn-start" onclick="startGame()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 font-fun rounded-xl text-lg shadow-lg active:scale-95 transition">
+            ¡JUGAR AHORA!
+          </button>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Tip: Toca rápido en la pantalla cuando aparezcan</p>
     </section>
 
-    <!-- MINIJUEGO -->
-    <section id="game-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden">
-      <div class="flex items-center justify-between mb-3">
+    <!-- PANTALLA 2: FORMULARIO DE VOTACIÓN (Oculto al inicio) -->
+    <section id="screen-vote" class="hidden bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl">
+      <div class="text-center mb-4">
+        <span class="text-2xl">🎉</span>
+        <h2 class="text-xl font-fun text-pink-400">¡Nivel Desbloqueado!</h2>
+        <p class="text-xs text-slate-300">Completá tu voto para el After Office</p>
+      </div>
+
+      <form id="voteForm" class="space-y-4">
+        <!-- Nombre -->
         <div>
-          <span class="text-xs uppercase tracking-wider text-rose-400 font-bold block">Minijuego</span>
-          <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-            Atrapa el After
-          </h2>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="text-right">
-            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Puntaje</span>
-            <span id="score-display" class="font-game text-xl text-amber-400">0</span>
-          </div>
-          <button id="sound-btn" onclick="toggleSound()" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 text-xs">
-            🔊
-          </button>
-        </div>
-      </div>
-
-      <!-- Canvas Box -->
-      <div class="relative w-full aspect-[4/3] bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-inner flex flex-col items-center justify-center">
-        <canvas id="gameCanvas" class="w-full h-full block cursor-pointer"></canvas>
-
-        <!-- Overlay Start -->
-        <div id="start-screen" class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-10 transition-opacity">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-400 flex items-center justify-center text-3xl shadow-lg mb-3">
-            🍺
-          </div>
-          <h3 class="font-game text-lg sm:text-xl text-white mb-2">Escape del Laburo</h3>
-          <p class="text-xs sm:text-sm text-slate-300 max-w-xs mb-4">
-            Mové el vaso para atrapar <span class="text-amber-400 font-bold">cervezas, bolos y llaves</span>. ¡Esquivá los <span class="text-rose-400 font-bold">mails urgentes</span>!
-          </p>
-          <div class="flex flex-col sm:flex-row gap-2 w-full max-w-xs">
-            <button onclick="startGame()" class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 font-bold text-white shadow-lg shadow-rose-500/25 active:scale-95 transition">
-              ¡JUGAR YA!
-            </button>
-            <a href="#voting-section" class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center justify-center transition">
-              Saltar a votar ⬇️
-            </a>
-          </div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">TU NOMBRE / APODO:</label>
+          <input type="text" id="voterName" required placeholder="Ej: Sabri" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
         </div>
 
-        <!-- Overlay Game Over con Cachorrita Anime -->
-        <div id="gameover-screen" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md hidden flex-col items-center justify-center p-4 text-center z-20">
-          
-          <div class="w-full max-w-xs flex flex-col items-center">
-            
-            <!-- Contenedor del Avatar SVG Anime -->
-            <div id="anime-avatar-box" class="w-36 h-36 relative mb-2 flex items-center justify-center rounded-2xl bg-gradient-to-b from-white/10 to-transparent border border-white/15 shadow-2xl p-2">
-              
-              <!-- CACHORRITA CONTENTA (>= 10 PTS) -->
-              <svg id="dog-happy" class="w-full h-full drop-shadow-[0_0_15px_rgba(244,63,94,0.5)] animate-bounce-slow hidden" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Cola de perro agitándose -->
-                <path class="animate-wag" d="M 45 130 C 20 120 10 145 25 160 C 40 170 55 145 45 130 Z" fill="#F59E0B" stroke="#B45309" stroke-width="3" />
-                <path d="M 18 140 C 12 142 8 148 10 152" stroke="#FDE68A" stroke-width="2" stroke-linecap="round"/>
-
-                <!-- Pelo posterior / orejas base -->
-                <ellipse cx="100" cy="95" rx="55" ry="50" fill="#FBBF24"/>
-                
-                <!-- Orejas de Cachorrita (tiesas y alertas) -->
-                <path d="M 50 85 C 35 40 55 15 75 45 C 65 65 58 75 50 85 Z" fill="#D97706" stroke="#92400E" stroke-width="3"/>
-                <path d="M 55 70 C 48 50 58 35 68 50 Z" fill="#FCA5A5"/>
-
-                <path d="M 150 85 C 165 40 145 15 125 45 C 135 65 142 75 150 85 Z" fill="#D97706" stroke="#92400E" stroke-width="3"/>
-                <path d="M 145 70 C 152 50 142 35 132 50 Z" fill="#FCA5A5"/>
-
-                <!-- Cabeza Anime -->
-                <path d="M 60 90 C 60 65 140 65 140 90 C 140 120 120 135 100 135 C 80 135 60 120 60 90 Z" fill="#FED7AA"/>
-                
-                <!-- Flequillo / Cabello Anime -->
-                <path d="M 60 80 C 70 70 85 85 95 72 C 105 85 120 70 140 80 C 135 60 120 50 100 50 C 80 50 65 60 60 80 Z" fill="#F59E0B"/>
-                <path d="M 85 75 L 90 92 L 95 75" fill="#D97706"/>
-                <path d="M 105 75 L 110 92 L 115 75" fill="#D97706"/>
-
-                <!-- Ojo izquierdo: guiño coqueto anime (^_~) -->
-                <path d="M 75 98 Q 85 90 92 99" stroke="#1E293B" stroke-width="4" stroke-linecap="round" fill="none"/>
-                
-                <!-- Ojo derecho: abierto, brillante y feliz -->
-                <ellipse cx="118" cy="96" rx="8" ry="11" fill="#1E293B"/>
-                <ellipse cx="116" cy="93" rx="3.5" ry="5" fill="#FFFFFF"/>
-                <circle cx="120" cy="100" r="2" fill="#38BDF8"/>
-
-                <!-- Naricita de perrita -->
-                <polygon points="98,105 102,105 100,108" fill="#E11D48"/>
-
-                <!-- Boca anime feliz con dientito tierno -->
-                <path d="M 92 112 Q 100 125 108 112 Z" fill="#BE123C"/>
-                <path d="M 94 112 L 97 116 L 100 112" fill="#FFFFFF"/>
-
-                <!-- Rubor en mejillas -->
-                <ellipse cx="73" cy="108" rx="7" ry="3.5" fill="#FB7185" opacity="0.7"/>
-                <ellipse cx="127" cy="108" rx="7" ry="3.5" fill="#FB7185" opacity="0.7"/>
-
-                <!-- Collar con cascabel -->
-                <path d="M 78 132 Q 100 140 122 132" stroke="#E11D48" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="100" cy="138" r="6" fill="#FACC15" stroke="#CA8A04" stroke-width="1.5"/>
-
-                <!-- Cuerpo / Vestido y Trago -->
-                <path d="M 75 140 C 70 165 65 190 60 200 L 140 200 C 135 190 130 165 125 140 Z" fill="#EC4899"/>
-                
-                <!-- Cóctel en mano -->
-                <polygon points="142,150 160,150 151,165" fill="#38BDF8" opacity="0.85"/>
-                <line x1="151" y1="165" x2="151" y2="175" stroke="#FFFFFF" stroke-width="2"/>
-                <line x1="144" y1="175" x2="158" y2="175" stroke="#FFFFFF" stroke-width="2"/>
-                <circle cx="148" cy="147" r="3" fill="#F43F5E"/> <!-- Cereza -->
-
-                <!-- Destellos mágicos / confeti -->
-                <path d="M 35 70 L 40 75 L 35 80 L 30 75 Z" fill="#FACC15"/>
-                <path d="M 165 65 L 170 70 L 165 75 L 160 70 Z" fill="#F43F5E"/>
-                <circle cx="160" cy="110" r="3" fill="#38BDF8"/>
-              </svg>
-
-              <!-- CACHORRITA TRISTE (< 10 PTS) -->
-              <svg id="dog-sad" class="w-full h-full drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] hidden" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Cabeza / pelo base -->
-                <ellipse cx="100" cy="98" rx="55" ry="50" fill="#94A3B8"/>
-                
-                <!-- Orejas caídas y tristes (floppy puppy ears) -->
-                <path d="M 52 80 C 40 85 30 120 45 135 C 55 140 65 110 60 88 Z" fill="#64748B" stroke="#475569" stroke-width="3"/>
-                <path d="M 48 95 C 40 108 45 125 50 122 Z" fill="#CBD5E1"/>
-
-                <path d="M 148 80 C 160 85 170 120 155 135 C 145 140 135 110 140 88 Z" fill="#64748B" stroke="#475569" stroke-width="3"/>
-                <path d="M 152 95 C 160 108 155 125 150 122 Z" fill="#CBD5E1"/>
-
-                <!-- Rostro Anime -->
-                <path d="M 62 92 C 62 68 138 68 138 92 C 138 122 118 136 100 136 C 82 136 62 122 62 92 Z" fill="#FED7AA"/>
-                
-                <!-- Flequillo desanimado -->
-                <path d="M 62 82 C 72 75 85 85 95 78 C 105 88 120 75 138 82 C 132 62 118 52 100 52 C 82 52 68 62 62 82 Z" fill="#64748B"/>
-
-                <!-- Ojos grandes de perrito regañado (Puppy eyes tristes) -->
-                <ellipse cx="80" cy="100" rx="9" ry="12" fill="#1E293B"/>
-                <ellipse cx="78" cy="97" rx="4" ry="5" fill="#FFFFFF"/>
-                <circle cx="83" cy="104" r="2.5" fill="#38BDF8"/>
-
-                <ellipse cx="120" cy="100" rx="9" ry="12" fill="#1E293B"/>
-                <ellipse cx="118" cy="97" rx="4" ry="5" fill="#FFFFFF"/>
-                <circle cx="123" cy="104" r="2.5" fill="#38BDF8"/>
-
-                <!-- Cejas preocupadas -->
-                <path d="M 72 87 Q 82 83 88 88" stroke="#334155" stroke-width="3" stroke-linecap="round" fill="none"/>
-                <path d="M 128 87 Q 118 83 112 88" stroke="#334155" stroke-width="3" stroke-linecap="round" fill="none"/>
-
-                <!-- Lágrimas estilo anime cósmico -->
-                <path class="animate-cry" d="M 72 106 C 70 120 76 128 73 135" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
-                <path class="animate-cry" d="M 128 106 C 130 120 124 128 127 135" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
-                <ellipse cx="73" cy="136" rx="2" ry="3" fill="#38BDF8"/>
-                <ellipse cx="127" cy="136" rx="2" ry="3" fill="#38BDF8"/>
-
-                <!-- Nariz -->
-                <polygon points="98,107 102,107 100,110" fill="#334155"/>
-
-                <!-- Puchero ondulado triste (﹏) -->
-                <path d="M 92 118 Q 96 114 100 118 Q 104 114 108 118" stroke="#475569" stroke-width="3" stroke-linecap="round" fill="none"/>
-
-                <!-- Rubor tímido / apenado -->
-                <ellipse cx="74" cy="112" rx="6" ry="3" fill="#F43F5E" opacity="0.4"/>
-                <ellipse cx="126" cy="112" rx="6" ry="3" fill="#F43F5E" opacity="0.4"/>
-
-                <!-- Manos sosteniéndose el pecho acongojada -->
-                <path d="M 80 148 C 75 168 70 195 65 200 L 135 200 C 130 195 125 168 120 148 Z" fill="#475569"/>
-                <circle cx="94" cy="146" r="6" fill="#FED7AA"/>
-                <circle cx="106" cy="146" r="6" fill="#FED7AA"/>
-              </svg>
-            </div>
-
-            <!-- Textos y Estado Dinámico -->
-            <div id="anime-dialogue" class="mb-4">
-              <span id="gameover-title" class="font-game text-xl text-rose-400 block tracking-wide">¡Te taparon de mails!</span>
-              <p id="gameover-quote" class="text-xs text-slate-300 mt-1 max-w-xs italic">"No pasa nada... ¡el after se hace igual!"</p>
-            </div>
-
-            <div class="flex items-center justify-center gap-4 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 mb-4 w-full">
-              <div>
-                <span class="text-[10px] text-slate-400 block uppercase">Puntaje</span>
-                <span id="final-score" class="font-game text-xl text-amber-400">0</span>
-              </div>
-              <div class="h-8 w-px bg-slate-800"></div>
-              <div>
-                <span class="text-[10px] text-slate-400 block uppercase">Récord</span>
-                <span id="best-score" class="font-game text-xl text-white">0</span>
-              </div>
-            </div>
-
-            <div class="flex flex-col gap-2 w-full">
-              <button onclick="startGame()" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 font-semibold text-xs text-slate-200 transition active:scale-95">
-                🔄 Reintentar juego
-              </button>
-              <button onclick="scrollToVoting()" class="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 font-bold text-sm text-white shadow-lg shadow-rose-500/30 active:scale-95 transition flex items-center justify-center gap-2">
-                <span>Votar las Opciones</span>
-                <span>👉</span>
-              </button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Barra de Ayuda y Pruebas Rápidas de la Cachorra -->
-      <div class="flex flex-wrap items-center justify-between gap-2 mt-3 text-[11px] text-slate-400">
-        <span class="flex items-center gap-1.5">
-          <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px]">Flechas</kbd> o deslizar dedo en celular.
-        </span>
-        <div class="flex items-center gap-1.5">
-          <span class="text-slate-500">Test anime:</span>
-          <button onclick="testAnimeOutcome(true)" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 border border-slate-700 transition">
-            Feliz (10+)
-          </button>
-          <button onclick="testAnimeOutcome(false)" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition">
-            Triste (&lt;10)
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- VOTACIÓN -->
-    <section id="voting-section" class="space-y-6 pt-4">
-      <div class="border-b border-slate-800 pb-3">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-semibold mb-1">
-          <span>Paso 2</span>
-          <span>•</span>
-          <span>Encuesta Oficial</span>
-        </div>
-        <h2 class="text-2xl font-black text-white">Elegí tu combo ideal</h2>
-        <p class="text-slate-400 text-sm">Seleccioná una fecha y la actividad principal. Todos los planes incluyen ronda de birras / tragos post-actividad.</p>
-      </div>
-
-      <!-- FECHAS -->
-      <div class="space-y-3">
-        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-          <span>📅</span> 1. Elegí la fecha (Primeros viernes de Noviembre)
-        </label>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="dates-container">
-          <!-- Fecha 1 -->
-          <div onclick="selectDate('nov-06')" id="card-date-nov-06" class="cursor-pointer border border-slate-800 bg-slate-900/70 p-4 rounded-2xl transition hover:border-slate-700 relative flex items-start justify-between">
-            <div>
-              <span class="text-xs text-rose-400 font-bold block uppercase">Opción 1</span>
-              <h3 class="font-bold text-lg text-white">Viernes 6 de Noviembre</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Para arrancar el mes sin vueltas.</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center check-circle">
-              <div class="w-2.5 h-2.5 rounded-full bg-rose-500 hidden check-inner"></div>
-            </div>
-          </div>
-
-          <!-- Fecha 2 -->
-          <div onclick="selectDate('nov-13')" id="card-date-nov-13" class="cursor-pointer border border-slate-800 bg-slate-900/70 p-4 rounded-2xl transition hover:border-slate-700 relative flex items-start justify-between">
-            <div>
-              <span class="text-xs text-purple-400 font-bold block uppercase">Opción 2</span>
-              <h3 class="font-bold text-lg text-white">Viernes 13 de Noviembre</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Viernes 13 de fiesta con el team.</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center check-circle">
-              <div class="w-2.5 h-2.5 rounded-full bg-rose-500 hidden check-inner"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ACTIVIDADES -->
-      <div class="space-y-3">
-        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-          <span>🎯</span> 2. Elegí el Plan + After
-        </label>
-
-        <div class="grid grid-cols-1 gap-3.5" id="plans-container">
-          <!-- Bowling -->
-          <div onclick="selectPlan('bowling')" id="card-plan-bowling" class="cursor-pointer border border-slate-800 bg-slate-900/80 p-4 rounded-2xl transition hover:border-slate-700 flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-3xl shrink-0">
-              🎳
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2">
-                <h3 class="font-bold text-base text-white">Torneo de Bowling + After Office</h3>
-                <span class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 text-[10px] font-bold">Clásico</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Líneas de bolos, cerveza tirada y picada compartida.</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center check-circle">
-              <div class="w-2.5 h-2.5 rounded-full bg-rose-500 hidden check-inner"></div>
-            </div>
-          </div>
-
-          <!-- Escape Room -->
-          <div onclick="selectPlan('escape')" id="card-plan-escape" class="cursor-pointer border border-slate-800 bg-slate-900/80 p-4 rounded-2xl transition hover:border-slate-700 flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-3xl shrink-0">
-              🔐
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2">
-                <h3 class="font-bold text-base text-white">Escape Room + Bar Temático</h3>
-                <span class="px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-300 text-[10px] font-bold">Team Building</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">60 minutos para resolver enigmas en equipo y festejo con birras al salir.</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center check-circle">
-              <div class="w-2.5 h-2.5 rounded-full bg-rose-500 hidden check-inner"></div>
-            </div>
-          </div>
-
-          <!-- Minigolf -->
-          <div onclick="selectPlan('golf')" id="card-plan-golf" class="cursor-pointer border border-slate-800 bg-slate-900/80 p-4 rounded-2xl transition hover:border-slate-700 flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-3xl shrink-0">
-              ⛳
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2">
-                <h3 class="font-bold text-base text-white">Minigolf Neón + Cócteles</h3>
-                <span class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-300 text-[10px] font-bold">Chill &amp; Tragos</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Circuito de mini putt con luces UV, barra de tragos y música en vivo.</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center check-circle">
-              <div class="w-2.5 h-2.5 rounded-full bg-rose-500 hidden check-inner"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Nombre Opcional -->
-      <div class="space-y-2">
-        <label for="voter-name" class="text-xs font-bold uppercase tracking-wider text-slate-400 block">
-          Tu Nombre o Apodo (para el conteo de asistencia)
-        </label>
-        <input type="text" id="voter-name" placeholder="Ej: Matias / Valen" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-rose-500 transition placeholder:text-slate-600">
-      </div>
-
-      <!-- Botón Emitir Voto -->
-      <button onclick="submitVote()" id="btn-submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-purple-600 to-amber-500 hover:opacity-95 font-black text-white text-base shadow-xl shadow-rose-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
-        <span>¡CONFIRMAR MI VOTO!</span>
-        <span class="text-lg">🚀</span>
-      </button>
-    </section>
-
-    <!-- RESULTADOS EN VIVO -->
-    <section id="results-section" class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <!-- Actividad -->
         <div>
-          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            Tablero en vivo
-          </span>
-          <h2 class="text-xl font-bold text-white">Resultados de la Votación</h2>
-        </div>
-        <div class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-full self-start sm:self-auto border border-slate-700/50">
-          Total Votos: <span id="total-votes-count" class="font-bold text-white">0</span>
-        </div>
-      </div>
-
-      <!-- Plan Ganador Destacado -->
-      <div id="winner-banner" class="p-4 rounded-2xl bg-gradient-to-r from-rose-500/20 via-purple-500/20 to-amber-500/20 border border-rose-500/40 relative overflow-hidden">
-        <div class="flex items-center gap-3">
-          <span class="text-3xl">👑</span>
-          <div>
-            <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider block">Plan Liderando el After</span>
-            <h3 id="winner-title" class="text-lg font-black text-white">Esperando primeros votos...</h3>
-          </div>
-        </div>
-      </div>
-
-      <!-- Barras de Planes -->
-      <div class="space-y-3">
-        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Votos por Actividad</h3>
-        
-        <!-- Bowling Bar -->
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs">
-            <span class="font-semibold text-slate-200">🎳 Bowling + After</span>
-            <span class="text-slate-400" id="bowling-stat">0 votos (0%)</span>
-          </div>
-          <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-            <div id="bar-bowling" class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-700" style="width: 0%"></div>
-          </div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">ACTIVIDAD PREFERIDA:</label>
+          <select id="voterActivity" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+            <option value="Bowling 🎳">Bowling 🎳</option>
+            <option value="Escape Room 🔐">Escape Room 🔐</option>
+            <option value="Minigolf ⛳">Minigolf ⛳</option>
+          </select>
         </div>
 
-        <!-- Escape Room Bar -->
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs">
-            <span class="font-semibold text-slate-200">🔐 Escape Room + Birras</span>
-            <span class="text-slate-400" id="escape-stat">0 votos (0%)</span>
-          </div>
-          <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-            <div id="bar-escape" class="h-full bg-gradient-to-r from-rose-500 to-purple-500 rounded-full transition-all duration-700" style="width: 0%"></div>
-          </div>
+        <!-- Fecha (Primeros dos viernes de noviembre) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">FECHA IDEAL (NOVIEMBRE):</label>
+          <select id="voterDate" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+            <option value="Viernes 6 de Noviembre">Primer Viernes (6 de Noviembre)</option>
+            <option value="Viernes 13 de Noviembre">Segundo Viernes (13 de Noviembre)</option>
+            <option value="Cualquiera de los dos me viene bien">Cualquiera de los dos viernes</option>
+          </select>
         </div>
 
-        <!-- Golf Bar -->
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs">
-            <span class="font-semibold text-slate-200">⛳ Minigolf + Cócteles</span>
-            <span class="text-slate-400" id="golf-stat">0 votos (0%)</span>
-          </div>
-          <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-            <div id="bar-golf" class="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all duration-700" style="width: 0%"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Barras de Fechas -->
-      <div class="space-y-3 pt-2 border-t border-slate-800/80">
-        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Votos por Fecha</h3>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
-            <span class="text-[10px] text-rose-400 font-bold block">VIERNES 6 NOV</span>
-            <span id="date-nov-06-stat" class="text-lg font-black text-white">0</span>
-            <span class="text-[10px] text-slate-500 block">votos</span>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
-            <span class="text-[10px] text-purple-400 font-bold block">VIERNES 13 NOV</span>
-            <span id="date-nov-13-stat" class="text-lg font-black text-white">0</span>
-            <span class="text-[10px] text-slate-500 block">votos</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Botón Copiar para WhatsApp -->
-      <div class="pt-2">
-        <button onclick="copyWhatsAppSummary()" class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-bold text-white text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-98 transition">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.586 1.761.948 2.796.948 3.182 0 5.768-2.587 5.769-5.766.001-3.182-2.585-5.769-5.769-5.769zm10.016 5.828c-.004 5.568-4.529 10.093-10.094 10.093-1.782 0-3.468-.466-4.945-1.282l-5.008 1.312 1.335-4.882c-.902-1.534-1.378-3.303-1.378-5.241.004-5.567 4.53-10.092 10.09-10.092 5.567 0 10 4.524 10 10.092z"/></svg>
-          Copiar para WhatsApp
+        <!-- Botón Enviar WhatsApp -->
+        <button type="button" onclick="enviarWhatsApp()" class="w-full mt-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-fun rounded-xl text-base shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
+          <span>ENVIAR VOTO POR WHATSAPP</span> 💬
         </button>
-      </div>
-
-      <!-- Botón de Reinicio para Administrador -->
-      <div class="pt-2 text-center">
-        <button onclick="resetAllVotes()" class="text-[11px] text-slate-500 hover:text-rose-400 transition underline underline-offset-4">
-          Reiniciar Votos (Modo Admin)
-        </button>
-      </div>
+      </form>
     </section>
 
   </main>
 
-  <!-- Notificación Toast -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white border border-slate-700 px-4 py-2.5 rounded-full text-xs font-semibold shadow-2xl transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
-    <span class="text-emerald-400">✓</span>
-    <span id="toast-text">Acción completada</span>
-  </div>
+  <footer class="text-center my-3">
+    <p class="text-[10px] text-slate-500 tracking-wider">
+      *Incluye show de enanos y palomas (sujeto a disponibilidad y presupuesto) 🕊️
+    </p>
+  </footer>
 
+  <!-- LÓGICA DE JUEGO Y REDIRECCIÓN -->
   <script>
-    // ESTADO GENERAL DE LA APLICACIÓN
-    const state = {
-      selectedDate: null,
-      selectedPlan: null,
-      soundEnabled: true,
-      votes: {
-        total: 0,
-        dates: { 'nov-06': 0, 'nov-13': 0 },
-        plans: { bowling: 0, escape: 0, golf: 0 }
-      }
-    };
-
-    // Almacenamiento local para persistencia de votos
-    function loadSavedVotes() {
-      const saved = localStorage.getItem('after_office_votes_v2');
-      if (saved) {
-        try {
-          state.votes = JSON.parse(saved);
-        } catch(e) {}
-      }
-      updateResultsUI();
-    }
-
-    function saveVotes() {
-      localStorage.setItem('after_office_votes_v2', JSON.stringify(state.votes));
-      updateResultsUI();
-    }
-
-    // AUDIO SINTETIZADO (Web Audio API)
-    let audioCtx = null;
-    function getAudioCtx() {
-      if (!audioCtx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (AudioContext) audioCtx = new AudioContext();
-      }
-      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-      return audioCtx;
-    }
-
-    function playTone(freq, type = 'sine', duration = 0.15, vol = 0.2) {
-      if (!state.soundEnabled) return;
-      try {
-        const ctx = getAudioCtx();
-        if (!ctx) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        gain.gain.setValueAtTime(vol, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + duration);
-      } catch (e) {}
-    }
-
-    function toggleSound() {
-      state.soundEnabled = !state.soundEnabled;
-      document.getElementById('sound-btn').innerText = state.soundEnabled ? '🔊' : '🔇';
-      showToast(state.soundEnabled ? "Sonido activado" : "Sonido silenciado");
-    }
-
-    // MINIJUEGO: Atrapa el After
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    let gameRunning = false;
     let score = 0;
-    let bestScore = parseInt(localStorage.getItem('after_best_score') || '0', 10);
-    document.getElementById('best-score').innerText = bestScore;
+    const targetScore = 5;
+    let targetX = 150;
+    let targetY = 150;
+    let targetRadius = 30;
+    let gameInterval = null;
 
-    let basket = { x: 150, y: 0, width: 60, height: 45, speed: 7 };
-    let items = [];
-    let itemSpawnTimer = 0;
-    let keys = {};
-
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      basket.y = canvas.height - 55;
-      if (basket.x + basket.width > canvas.width) {
-        basket.x = canvas.width / 2 - basket.width / 2;
-      }
+    function drawTarget() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = "36px serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("🐶", targetX, targetY);
     }
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('DOMContentLoaded', () => {
-      resizeCanvas();
-      loadSavedVotes();
-    });
 
-    // Control de teclado
-    window.addEventListener('keydown', e => {
-      keys[e.key] = true;
-      if (['ArrowLeft', 'ArrowRight', ' '].includes(e.key)) e.preventDefault();
-    });
-    window.addEventListener('keyup', e => { keys[e.key] = false; });
-
-    // Control Touch / Mouse
-    let isDragging = false;
-    function handlePointerMove(clientX) {
-      const rect = canvas.getBoundingClientRect();
-      const pos = clientX - rect.left;
-      basket.x = Math.max(0, Math.min(canvas.width - basket.width, pos - basket.width / 2));
+    function relocateTarget() {
+      const margin = 40;
+      targetX = margin + Math.random() * (canvas.width - margin * 2);
+      targetY = margin + Math.random() * (canvas.height - margin * 2);
+      drawTarget();
     }
-    canvas.addEventListener('touchstart', e => {
-      isDragging = true;
-      if (e.touches[0]) handlePointerMove(e.touches[0].clientX);
-    }, { passive: true });
-    canvas.addEventListener('touchmove', e => {
-      if (isDragging && e.touches[0]) handlePointerMove(e.touches[0].clientX);
-    }, { passive: true });
-    canvas.addEventListener('touchend', () => { isDragging = false; });
-
-    canvas.addEventListener('mousedown', e => {
-      isDragging = true;
-      handlePointerMove(e.clientX);
-    });
-    window.addEventListener('mousemove', e => {
-      if (isDragging && gameRunning) handlePointerMove(e.clientX);
-    });
-    window.addEventListener('mouseup', () => { isDragging = false; });
 
     function startGame() {
-      getAudioCtx();
-      playTone(520, 'sine', 0.2);
-      resizeCanvas();
+      document.getElementById('game-overlay').classList.add('hidden');
       score = 0;
-      document.getElementById('score-display').innerText = '0';
-      items = [];
-      itemSpawnTimer = 0;
-      basket.x = canvas.width / 2 - basket.width / 2;
-      
-      document.getElementById('start-screen').classList.add('opacity-0', 'pointer-events-none');
-      document.getElementById('start-screen').classList.add('hidden');
-      document.getElementById('gameover-screen').classList.add('hidden');
-      document.getElementById('gameover-screen').classList.remove('flex');
-      
-      gameRunning = true;
-      requestAnimationFrame(gameLoop);
+      document.getElementById('score-display').innerText = "Puntos: " + score;
+      relocateTarget();
+      clearInterval(gameInterval);
+      gameInterval = setInterval(relocateTarget, 1200);
     }
 
-    function spawnItem() {
-      const types = [
-        { char: '🍺', type: 'good', points: 1, text: '+1' },
-        { char: '🎳', type: 'good', points: 2, text: '+2' },
-        { char: '🔐', type: 'good', points: 2, text: '+2' },
-        { char: '⛳', type: 'good', points: 2, text: '+2' },
-        { char: '📧', type: 'bad', text: 'SLACK URGENTE' },
-        { char: '📊', type: 'bad', text: 'REPORTE YA' }
-      ];
-      
-      // Proporción: 70% cosas de fiesta, 30% correos
-      const isBad = Math.random() < 0.32;
-      const filtered = types.filter(t => isBad ? t.type === 'bad' : t.type === 'good');
-      const itemData = filtered[Math.floor(Math.random() * filtered.length)];
+    function handleHit(evt) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+      const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const clickX = (clientX - rect.left) * scaleX;
+      const clickY = (clientY - rect.top) * scaleY;
 
-      const size = 32;
-      items.push({
-        x: Math.random() * (canvas.width - size),
-        y: -35,
-        size: size,
-        speed: 2.5 + Math.random() * 2 + (score * 0.08),
-        data: itemData
-      });
-    }
-
-    function gameLoop() {
-      if (!gameRunning) return;
-
-      // Movimiento con teclado
-      if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
-        basket.x = Math.max(0, basket.x - basket.speed);
-      }
-      if (keys['ArrowRight'] || keys['d'] || keys['D']) {
-        basket.x = Math.min(canvas.width - basket.width, basket.x + basket.speed);
-      }
-
-      // Spawning
-      itemSpawnTimer++;
-      if (itemSpawnTimer > Math.max(28, 55 - score)) {
-        spawnItem();
-        itemSpawnTimer = 0;
-      }
-
-      // Actualizar Items
-      for (let i = items.length - 1; i >= 0; i--) {
-        const item = items[i];
-        item.y += item.speed;
-
-        // Colisión con la copa/vaso
-        const inX = (item.x + item.size * 0.7 > basket.x) && (item.x < basket.x + basket.width);
-        const inY = (item.y + item.size > basket.y) && (item.y < basket.y + basket.height * 0.7);
-
-        if (inX && inY) {
-          if (item.data.type === 'good') {
-            score += item.data.points;
-            document.getElementById('score-display').innerText = score;
-            playTone(400 + (score * 20), 'triangle', 0.12, 0.25);
-            items.splice(i, 1);
-            continue;
-          } else {
-            // Golpe con Mail/Reporte = GameOver
-            playTone(150, 'sawtooth', 0.4, 0.3);
-            endGame();
-            return;
-          }
-        }
-
-        // Salida de pantalla
-        if (item.y > canvas.height + 20) {
-          items.splice(i, 1);
-        }
-      }
-
-      // Render
-      renderCanvas();
-      requestAnimationFrame(gameLoop);
-    }
-
-    function renderCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Fondo sutil con grid
-      ctx.strokeStyle = 'rgba(255,255,255,0.03)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 30) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-
-      // Dibujar Items
-      ctx.font = '28px sans-serif';
-      ctx.textAlign = 'center';
-      items.forEach(item => {
-        ctx.fillText(item.data.char, item.x + item.size / 2, item.y + item.size);
-      });
-
-      // Dibujar Vaso / Chope
-      const bX = basket.x;
-      const bY = basket.y;
-      
-      // Resplandor
-      ctx.fillStyle = 'rgba(244, 63, 94, 0.2)';
-      ctx.beginPath();
-      ctx.arc(bX + basket.width / 2, bY + 25, 30, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Copa / Vaso
-      ctx.font = '40px sans-serif';
-      ctx.fillText('🍻', bX + basket.width / 2, bY + 38);
-    }
-
-    function endGame() {
-      gameRunning = false;
-      if (score > bestScore) {
-        bestScore = score;
-        localStorage.setItem('after_best_score', bestScore);
-      }
-      document.getElementById('final-score').innerText = score;
-      document.getElementById('best-score').innerText = bestScore;
-
-      // Pantalla Cachorrita Anime según el resultado
-      applyAnimeOutcome(score >= 10);
-
-      const goScreen = document.getElementById('gameover-screen');
-      goScreen.classList.remove('hidden');
-      goScreen.classList.add('flex');
-    }
-
-    function applyAnimeOutcome(isWinner) {
-      const dogHappy = document.getElementById('dog-happy');
-      const dogSad = document.getElementById('dog-sad');
-      const title = document.getElementById('gameover-title');
-      const quote = document.getElementById('gameover-quote');
-
-      if (isWinner) {
-        dogHappy.classList.remove('hidden');
-        dogSad.classList.add('hidden');
-        title.innerText = '¡FIESTA TOTAL!';
-        title.className = 'font-game text-xl text-amber-400 block tracking-wide';
-        quote.innerText = '¡La rompiste! La cachorrita ya tiene el trago listo para el after 🎉';
-      } else {
-        dogHappy.classList.add('hidden');
-        dogSad.classList.remove('hidden');
-        title.innerText = '¡TE TAPARON DE MAILS!';
-        title.className = 'font-game text-xl text-sky-400 block tracking-wide';
-        quote.innerText = 'Awww... pero no pasa nada, ¡el after se hace igual para festejar!';
-      }
-    }
-
-    // Función de testeo rápido sin jugar
-    window.testAnimeOutcome = function(isWinner) {
-      score = isWinner ? 12 : 5;
-      document.getElementById('final-score').innerText = score;
-      applyAnimeOutcome(isWinner);
-      const goScreen = document.getElementById('gameover-screen');
-      goScreen.classList.remove('hidden');
-      goScreen.classList.add('flex');
-    };
-
-    function scrollToVoting() {
-      document.getElementById('voting-section').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // SELECCIÓN Y VOTACIÓN
-    function selectDate(dateKey) {
-      state.selectedDate = dateKey;
-      playTone(580, 'sine', 0.1);
-      
-      ['nov-06', 'nov-13'].forEach(d => {
-        const el = document.getElementById(`card-date-${d}`);
-        const inner = el.querySelector('.check-inner');
-        if (d === dateKey) {
-          el.classList.add('card-active');
-          inner.classList.remove('hidden');
+      const dist = Math.hypot(clickX - targetX, clickY - targetY);
+      if (dist < targetRadius + 15) {
+        score++;
+        document.getElementById('score-display').innerText = "Puntos: " + score;
+        if (score >= targetScore) {
+          clearInterval(gameInterval);
+          document.getElementById('screen-game').classList.add('hidden');
+          document.getElementById('screen-vote').classList.remove('hidden');
         } else {
-          el.classList.remove('card-active');
-          inner.classList.add('hidden');
+          relocateTarget();
         }
-      });
-    }
-
-    function selectPlan(planKey) {
-      state.selectedPlan = planKey;
-      playTone(620, 'sine', 0.1);
-
-      ['bowling', 'escape', 'golf'].forEach(p => {
-        const el = document.getElementById(`card-plan-${p}`);
-        const inner = el.querySelector('.check-inner');
-        if (p === planKey) {
-          el.classList.add('card-active');
-          inner.classList.remove('hidden');
-        } else {
-          el.classList.remove('card-active');
-          inner.classList.add('hidden');
-        }
-      });
-    }
-
-    function submitVote() {
-      if (!state.selectedDate) {
-        showToast("⚠️ Por favor elegí una fecha primero");
-        return;
       }
-      if (!state.selectedPlan) {
-        showToast("⚠️ Por favor elegí qué actividad te gusta más");
+    }
+
+    canvas.addEventListener('pointerdown', handleHit);
+
+    function enviarWhatsApp() {
+      const nombre = document.getElementById('voterName').value.trim();
+      const actividad = document.getElementById('voterActivity').value;
+      const fecha = document.getElementById('voterDate').value;
+
+      if (!nombre) {
+        alert("Por favor ingresá tu nombre o apodo.");
         return;
       }
 
-      state.votes.total++;
-      state.votes.dates[state.selectedDate]++;
-      state.votes.plans[state.selectedPlan]++;
-      
-      saveVotes();
-      playTone(880, 'triangle', 0.35, 0.3);
-      
-      showToast("🎉 ¡Voto registrado con éxito!");
-      document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
-    }
+      const mensaje = `¡Hola! Ya voté para el After Office 🐶🎉%0A%0A` +
+                      `👤 *Nombre:* ${encodeURIComponent(nombre)}%0A` +
+                      `🎯 *Actividad:* ${encodeURIComponent(actividad)}%0A` +
+                      `📅 *Fecha:* ${encodeURIComponent(fecha)}%0A%0A` +
+                      `*(Nota: Exijo el show prometido de enanos y palomas 🕊️)*`;
 
-    function updateResultsUI() {
-      const v = state.votes;
-      document.getElementById('total-votes-count').innerText = v.total;
-      
-      document.getElementById('date-nov-06-stat').innerText = v.dates['nov-06'];
-      document.getElementById('date-nov-13-stat').innerText = v.dates['nov-13'];
-
-      const totalPlans = v.total > 0 ? v.total : 1;
-      
-      const pBowling = Math.round((v.plans.bowling / totalPlans) * 100);
-      const pEscape = Math.round((v.plans.escape / totalPlans) * 100);
-      const pGolf = Math.round((v.plans.golf / totalPlans) * 100);
-
-      document.getElementById('bowling-stat').innerText = `${v.plans.bowling} votos (${pBowling}%)`;
-      document.getElementById('bar-bowling').style.width = `${pBowling}%`;
-
-      document.getElementById('escape-stat').innerText = `${v.plans.escape} votos (${pEscape}%)`;
-      document.getElementById('bar-escape').style.width = `${pEscape}%`;
-
-      document.getElementById('golf-stat').innerText = `${v.plans.golf} votos (${pGolf}%)`;
-      document.getElementById('bar-golf').style.width = `${pGolf}%`;
-
-      // Definir Ganador
-      const winTitle = document.getElementById('winner-title');
-      if (v.total === 0) {
-        winTitle.innerText = "Esperando primeros votos...";
-      } else {
-        const top = Object.entries(v.plans).sort((a, b) => b[1] - a[1])[0];
-        const names = {
-          bowling: '🎳 Torneo de Bowling + After Office',
-          escape: '🔐 Escape Room + Bar Temático',
-          golf: '⛳ Minigolf Neón + Cócteles'
-        };
-        winTitle.innerText = names[top[0]];
-      }
-    }
-
-    // COMPARTIR POR WHATSAPP CON OPCIÓN 2
-    function copyWhatsAppSummary() {
-      const v = state.votes;
-      const topPlan = Object.entries(v.plans).sort((a, b) => b[1] - a[1])[0][0];
-      const planNames = {
-        bowling: 'Bowling + After',
-        escape: 'Escape Room + Birras',
-        golf: 'Minigolf + Tragos'
-      };
-      const dateWin = v.dates['nov-06'] >= v.dates['nov-13'] ? 'Viernes 6 de Noviembre' : 'Viernes 13 de Noviembre';
-      
-      const winnerStr = v.total > 0 ? planNames[topPlan] : 'A definir';
-      const shareUrl = window.location.href;
-
-      const message = `🍻 *COMUNICADO EXTRAOFICIAL DE RRHH* 🍻\n\n` +
-                      `Ingreso al show de enanos y palomas… mmmm.\n\n` +
-                      `Por las dudas de que no consigamos habilitación municipal, votá por las opciones reales (Bowling, Escape Room o Minigolf):\n` +
-                      `🏆 *Lidera:* ${winnerStr}\n` +
-                      `📅 *Fecha:* ${dateWin}\n\n` +
-                      `🔗 ${shareUrl}\n\n` +
-                      `(No te olvides de jugar para ver si ganás o salís llorando con la perrita anime).`;
-
-      copyTextToClipboard(message, "¡Texto copiado para WhatsApp!");
-    }
-
-    function shareDirectly() {
-      const shareData = {
-        title: 'Votación After Office 2026',
-        text: '¡Entrá a jugar y votar por nuestro after office de noviembre!',
-        url: window.location.href
-      };
-
-      if (navigator.share) {
-        navigator.share(shareData).catch(() => {});
-      } else {
-        copyTextToClipboard(window.location.href, "¡Enlace copiado al portapapeles!");
-      }
-    }
-
-    function copyTextToClipboard(text, successMsg) {
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text)
-          .then(() => showToast(successMsg))
-          .catch(() => fallbackCopy(text, successMsg));
-      } else {
-        fallbackCopy(text, successMsg);
-      }
-    }
-
-    function fallbackCopy(text, successMsg) {
-      try {
-        const area = document.createElement("textarea");
-        area.value = text;
-        area.style.position = "fixed";
-        area.style.left = "-9999px";
-        document.body.appendChild(area);
-        area.focus();
-        area.select();
-        document.execCommand('copy');
-        document.body.removeChild(area);
-        showToast(successMsg);
-      } catch (err) {
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-      }
-    }
-
-    function resetAllVotes() {
-      if (confirm("¿Estás seguro de que deseas reiniciar todos los votos a cero?")) {
-        state.votes = {
-          total: 0,
-          dates: { 'nov-06': 0, 'nov-13': 0 },
-          plans: { bowling: 0, escape: 0, golf: 0 }
-        };
-        saveVotes();
-        showToast("Votos reiniciados a cero");
-      }
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toast-text').innerText = msg;
-      t.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        t.classList.add('opacity-0', 'pointer-events-none');
-      }, 2600);
+      window.open(`https://api.whatsapp.com/send?text=${mensaje}`, '_blank');
     }
   </script>
 </body>
