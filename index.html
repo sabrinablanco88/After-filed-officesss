@@ -6,7 +6,7 @@
   <title>After Office - Votación</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #0b0f19; color: #f8fafc; padding: 14px; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+    body { background-color: #0b0f19; color: #f8fafc; padding: 14px; min-height: 100vh; }
     
     .card { background: #151d30; border: 1px solid #2d3b5e; border-radius: 18px; padding: 16px; margin-bottom: 12px; text-align: center; }
     
@@ -23,13 +23,13 @@
     .gold-box p { color: #ffffff; font-size: 14px; font-weight: 900; }
     .gold-box span { color: #cbd5e1; font-size: 10px; display: block; margin-top: 3px; }
     
-    /* JUEGO */
-    .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 10px 0; background: #070a12; padding: 10px; border-radius: 14px; border: 1px solid #1e293b; }
-    .hole { height: 75px; background: #111827; border-radius: 10px; border: 1px dashed #374151; display: flex; align-items: center; justify-content: center; font-size: 32px; user-select: none; cursor: pointer; transition: transform 0.1s; }
-    .hole.active { background: #be185d; border: 2px solid #f472b6; transform: scale(1.03); }
+    /* GRILLA DE BOTONES NATIVOS */
+    .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0 10px 0; background: #070a12; padding: 10px; border-radius: 14px; border: 1px solid #1e293b; }
+    .hole-btn { height: 75px; background: #111827; border-radius: 10px; border: 1px dashed #374151; font-size: 32px; display: flex; align-items: center; justify-content: center; outline: none; cursor: pointer; }
+    .hole-btn.active { background: #be185d; border: 2px solid #f472b6; }
     .score-txt { font-size: 17px; font-weight: 900; color: #fbbf24; }
     
-    /* PANTALLAS */
+    /* PANTALLA VOTACIÓN */
     #pantalla-votacion { display: none; }
     
     /* FORMULARIO */
@@ -37,12 +37,12 @@
     .form-group label { display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 5px; }
     input, select { width: 100%; padding: 12px; background: #070a12; border: 1px solid #475569; border-radius: 10px; color: white; font-size: 15px; outline: none; }
     .btn-ws { width: 100%; padding: 15px; background: #10b981; border: none; border-radius: 12px; color: white; font-size: 15px; font-weight: 900; cursor: pointer; margin-top: 6px; }
-    .btn-ws:active { transform: scale(0.98); background: #059669; }
+    .btn-ws:active { background: #059669; }
   </style>
 </head>
 <body>
 
-  <!-- CABECERA FIJA -->
+  <!-- CABECERA -->
   <div class="card">
     <div class="badge-date">
       <p>FECHA CONFIRMADA</p>
@@ -58,7 +58,7 @@
     <span>(Sujeto a disponibilidad, presupuesto y aprobación)</span>
   </div>
 
-  <!-- PANTALLA 1: SOLO EL JUEGO -->
+  <!-- PANTALLA 1: JUEGO -->
   <div class="card" id="pantalla-juego">
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <span style="font-size:13px; font-weight:700; color:#f472b6;">Atrapá la Birra</span>
@@ -66,22 +66,22 @@
     </div>
     <p style="font-size:12px; color:#94a3b8; margin-top:4px;">Atrapá 5 para desbloquear la votación:</p>
 
-    <!-- Grilla -->
+    <!-- Grilla hecha con botones reales -->
     <div class="game-grid">
-      <div class="hole" id="box-0" onpointerdown="presionar(0)"></div>
-      <div class="hole" id="box-1" onpointerdown="presionar(1)"></div>
-      <div class="hole" id="box-2" onpointerdown="presionar(2)"></div>
-      <div class="hole" id="box-3" onpointerdown="presionar(3)"></div>
-      <div class="hole active" id="box-4" onpointerdown="presionar(4)">🍻</div>
-      <div class="hole" id="box-5" onpointerdown="presionar(5)"></div>
+      <button type="button" class="hole-btn" id="btn-0"></button>
+      <button type="button" class="hole-btn" id="btn-1"></button>
+      <button type="button" class="hole-btn" id="btn-2"></button>
+      <button type="button" class="hole-btn" id="btn-3"></button>
+      <button type="button" class="hole-btn active" id="btn-4">🍻</button>
+      <button type="button" class="hole-btn" id="btn-5"></button>
     </div>
 
-    <button type="button" onpointerdown="saltarJuego()" style="background:none; border:none; color:#64748b; font-size:11px; text-decoration:underline; cursor:pointer; margin-top:6px;">
+    <button type="button" id="btn-skip" style="background:none; border:none; color:#64748b; font-size:12px; text-decoration:underline; cursor:pointer; padding: 8px;">
       Prefiero ir a votar directo ➡️
     </button>
   </div>
 
-  <!-- PANTALLA 2: FORMULARIO (SE DESBLOQUEA AL LLEGAR A 5) -->
+  <!-- PANTALLA 2: FORMULARIO DESBLOQUEADO -->
   <div class="card" id="pantalla-votacion">
     <div style="background: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
       <p style="font-size: 15px; font-weight: 900; color: #34d399;">🎉 ¡NIVEL COMPLETADO!</p>
@@ -106,12 +106,12 @@
       </select>
     </div>
 
-    <button type="button" class="btn-ws" onpointerdown="enviarWhatsApp()">
+    <button type="button" class="btn-ws" id="btn-send">
       ENVIAR VOTO A WHATSAPP 💬
     </button>
   </div>
 
-  <p style="text-align:center; font-size:10px; color:#475569; margin-top: auto; padding-top: 10px;">
+  <p style="text-align:center; font-size:10px; color:#475569; padding-top: 10px;">
     After Office • Producciones Palomas & Enanos Inc. 🕊️
   </p>
 
@@ -121,14 +121,72 @@
 
     function moverBirra() {
       for (var i = 0; i < 6; i++) {
-        var el = document.getElementById('box-' + i);
-        el.className = 'hole';
-        el.innerText = '';
+        var b = document.getElementById('btn-' + i);
+        b.className = 'hole-btn';
+        b.innerHTML = '';
       }
       var nueva = Math.floor(Math.random() * 6);
       while (nueva === posicionActual) {
         nueva = Math.floor(Math.random() * 6);
       }
       posicionActual = nueva;
-      var activa = document.getElementById('box-' + nueva);
-      activa.className =
+      var activa = document.getElementById('btn-' + nueva);
+      activa.className = 'hole-btn active';
+      activa.innerHTML = '🍻';
+    }
+
+    function mostrarVotacion() {
+      document.getElementById('pantalla-juego').style.display = 'none';
+      document.getElementById('pantalla-votacion').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    function tocarCasilla(idx) {
+      if (idx === posicionActual) {
+        puntos++;
+        document.getElementById('score').innerText = 'Puntos: ' + puntos + ' / 5';
+        if (puntos >= 5) {
+          mostrarVotacion();
+        } else {
+          moverBirra();
+        }
+      }
+    }
+
+    // Registro seguro de eventos para Safari/iOS
+    for (let i = 0; i < 6; i++) {
+      let b = document.getElementById('btn-' + i);
+      b.addEventListener('pointerdown', function(e) {
+        e.preventDefault();
+        tocarCasilla(i);
+      });
+      b.addEventListener('click', function() {
+        tocarCasilla(i);
+      });
+    }
+
+    document.getElementById('btn-skip').addEventListener('click', mostrarVotacion);
+
+    document.getElementById('btn-send').addEventListener('click', function() {
+      var nombre = document.getElementById('voterName').value.trim();
+      var plan = document.getElementById('voterPlan').value;
+
+      if (!nombre) {
+        alert("Escribí tu nombre antes de enviar.");
+        return;
+      }
+
+      var texto = "🍻 *VOTO REGISTRADO PARA EL AFTER OFFICE* 🍻%0A%0A" +
+                  "👤 *Nombre:* " + encodeURIComponent(nombre) + "%0A" +
+                  "🎯 *Plan elegido:* " + encodeURIComponent(plan) + "%0A" +
+                  "📅 *Fecha:* Viernes 27 de Noviembre%0A%0A" +
+                  "═════════════════════════%0A" +
+                  "🚨 *CLÁUSULA CONTRACTUAL EXCLUSIVA:* 🚨%0A" +
+                  "🕊️ *EXIJO FORMALMENTE EL SHOW DE ENANOS Y PALOMAS EN EL AFTER* 🕊️%0A" +
+                  "═════════════════════════";
+
+      window.open("https://api.whatsapp.com/send?text=" + texto, "_blank");
+    });
+  </script>
+</body>
+</html>
