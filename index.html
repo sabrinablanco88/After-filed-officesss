@@ -6,7 +6,7 @@
   <title>After Office - Votación</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #0b0f19; color: #f8fafc; padding: 14px; padding-bottom: 50px; }
+    body { background-color: #0b0f19; color: #f8fafc; padding: 14px; padding-bottom: 60px; }
     
     .card { background: #151d30; border: 1px solid #2d3b5e; border-radius: 18px; padding: 16px; margin-bottom: 12px; text-align: center; }
     
@@ -23,11 +23,16 @@
     .gold-box p { color: #ffffff; font-size: 14px; font-weight: 900; }
     .gold-box span { color: #cbd5e1; font-size: 10px; display: block; margin-top: 3px; }
     
-    /* JUEGO TÁCTIL BLINDADO */
+    /* JUEGO TÁCTIL */
     .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0 8px 0; background: #070a12; padding: 10px; border-radius: 14px; border: 1px solid #1e293b; }
     .hole { height: 68px; background: #111827; border-radius: 10px; border: 1px dashed #374151; display: flex; align-items: center; justify-content: center; font-size: 30px; user-select: none; cursor: pointer; transition: transform 0.1s; }
     .hole.active { background: #be185d; border: 2px solid #f472b6; transform: scale(1.02); }
     .score-txt { font-size: 17px; font-weight: 900; color: #fbbf24; }
+    
+    /* MENSAJE VICTORIA CON LA PALOMA */
+    .win-banner { display: none; background: #065f46; border: 2px solid #34d399; border-radius: 14px; padding: 12px; margin-top: 10px; }
+    .win-banner p:first-child { font-size: 14px; font-weight: 900; color: #ffffff; }
+    .win-banner p:last-child { font-size: 13px; font-weight: 800; color: #6ee7b7; margin-top: 4px; }
     
     /* FORMULARIO */
     .form-group { text-align: left; margin-bottom: 12px; }
@@ -56,15 +61,15 @@
   </div>
 
   <!-- JUEGO INTERACTIVO -->
-  <div class="card">
+  <div class="card" id="seccion-juego">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span style="font-size:13px; font-weight:700; color:#f472b6;">Atrapá la Birra</span>
-      <span class="score-txt" id="score">Puntos: 0</span>
+      <span style="font-size:13px; font-weight:700; color:#f472b6;">Atrapá la Birra (Meta: 5)</span>
+      <span class="score-txt" id="score">Puntos: 0 / 5</span>
     </div>
-    <p style="font-size:11px; color:#94a3b8; margin-top:2px;">Tocá la casilla rosa cuando aparezca:</p>
+    <p style="font-size:11px; color:#94a3b8; margin-top:2px;" id="game-instruction">Tocá la casilla rosa para desbloquear la votación:</p>
 
     <!-- Grilla de 6 casillas -->
-    <div class="game-grid">
+    <div class="game-grid" id="grid">
       <div class="hole" id="box-0" onpointerdown="presionar(0)"></div>
       <div class="hole" id="box-1" onpointerdown="presionar(1)"></div>
       <div class="hole" id="box-2" onpointerdown="presionar(2)"></div>
@@ -73,13 +78,19 @@
       <div class="hole" id="box-5" onpointerdown="presionar(5)"></div>
     </div>
 
-    <button type="button" onpointerdown="resetGame()" style="background:none; border:none; color:#64748b; font-size:11px; text-decoration:underline; cursor:pointer;">
+    <!-- BANNER DE VICTORIA CON EL MENSAJE DE LA PALOMA -->
+    <div class="win-banner" id="winBanner">
+      <p>🎉 ¡NIVEL COMPLETADO!</p>
+      <p>🕊️ Te quedaste con ganas de comer la paloma... ¡VOTÁ YA! 👇</p>
+    </div>
+
+    <button type="button" onpointerdown="resetGame()" style="background:none; border:none; color:#64748b; font-size:11px; text-decoration:underline; cursor:pointer; margin-top:6px;">
       Reiniciar puntaje
     </button>
   </div>
 
-  <!-- VOTACIÓN -->
-  <div class="card">
+  <!-- FORMULARIO DE VOTACIÓN -->
+  <div class="card" id="form-card">
     <h3 style="font-size:15px; font-weight:800; margin-bottom:10px;">Votá tu plan preferido</h3>
     
     <div class="form-group">
@@ -108,15 +119,14 @@
   <script>
     var puntos = 0;
     var posicionActual = 4;
+    var juegoTerminado = false;
 
     function moverBirra() {
-      // Limpiar todas las casillas
       for (var i = 0; i < 6; i++) {
         var el = document.getElementById('box-' + i);
         el.className = 'hole';
         el.innerText = '';
       }
-      // Elegir una casilla nueva distinta
       var nueva = Math.floor(Math.random() * 6);
       while (nueva === posicionActual) {
         nueva = Math.floor(Math.random() * 6);
@@ -128,16 +138,38 @@
     }
 
     function presionar(indice) {
+      if (juegoTerminado) return;
+
       if (indice === posicionActual) {
         puntos++;
-        document.getElementById('score').innerText = 'Puntos: ' + puntos;
-        moverBirra();
+        document.getElementById('score').innerText = 'Puntos: ' + puntos + ' / 5';
+
+        if (puntos >= 5) {
+          juegoTerminado = true;
+          for (var i = 0; i < 6; i++) {
+            var el = document.getElementById('box-' + i);
+            el.className = 'hole';
+            el.innerText = '';
+          }
+          document.getElementById('winBanner').style.display = 'block';
+          document.getElementById('game-instruction').innerText = '🕊️ ¡Nivel superado!';
+          
+          setTimeout(function() {
+            document.getElementById('form-card').scrollIntoView({ behavior: 'smooth' });
+          }, 450);
+        } else {
+          moverBirra();
+        }
       }
     }
 
     function resetGame() {
       puntos = 0;
-      document.getElementById('score').innerText = 'Puntos: 0';
+      juegoTerminado = false;
+      document.getElementById('score').innerText = 'Puntos: 0 / 5';
+      document.getElementById('winBanner').style.display = 'none';
+      document.getElementById('game-instruction').innerText = 'Tocá la casilla rosa para desbloquear la votación:';
+      moverBirra();
     }
 
     function enviarWhatsApp() {
